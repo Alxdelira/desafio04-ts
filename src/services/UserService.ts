@@ -11,6 +11,9 @@ const db = [
 ]
 
 export class UserService {
+    static deleteUser(id: string) {
+        throw new Error('Method not implemented.')
+    }
     db: User[]
 
     constructor(
@@ -31,6 +34,15 @@ export class UserService {
 
     getAllUsers = () => {
         return this.db
+    }
+
+    deleteUser = (id: string) => {
+        const index = this.db.findIndex((user) => user.email === id)
+        if (index === -1) {
+            throw new Error('Usuário não encontrado')
+        }
+        this.db.splice(index, 1)
+        return { message: 'Usuário deletado' }
     }
 }
 

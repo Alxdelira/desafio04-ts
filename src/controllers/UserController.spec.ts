@@ -22,4 +22,24 @@ describe('UserController', () => {
         expect(mockResponse.state.status).toBe(201)
         expect(mockResponse.state.json).toMatchObject({ message: 'Usuário criado' })
     })
+
+    it('Deve retornar erro se o nome não for informado', () => {
+        const mockRequest = {
+            body: {
+                email: 'nath@test.com'
+            }
+        } as Request
+        const mockResponse = makeMockResponse()
+        userController.createUser(mockRequest, mockResponse)
+        expect(mockResponse.state.status).toBe(400)
+        expect(mockResponse.state.json).toMatchObject({ message: 'Nome é obrigatório' })
+    })
+
+    it('Deve chamar a função getAllUsers', () => {
+        mockUserService.getAllUsers = jest.fn();
+        userController.getAllUsers({} as Request,
+            { status: jest.fn(), json: jest.fn() } as any,
+        );
+        expect(mockUserService.getAllUsers).toHaveBeenCalled();
+    })
 })
